@@ -8,12 +8,12 @@ load_dotenv()
 
 @task
 def run_daily_pipeline():
-    print("🚀 Running Daily Pipeline...")
+    print("Running Daily Pipeline...")
     subprocess.run(["python", "daily_pipeline.py"], check=True)
 
 @task
 def run_batch_job():
-    print("📦 Running Batch Job...")
+    print("Running Batch Job...")
     subprocess.run(["python", "batch_job.py"], check=True)
 
 @flow(name="unified_stock_pipeline")

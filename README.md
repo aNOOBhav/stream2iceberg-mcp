@@ -122,6 +122,11 @@ V, UNH, AVGO, MA, JNJ, HD, XOM, PG, COST, BAC
 
 ---
 
+## 🔄 LLD
+
+![image](https://github.com/user-attachments/assets/a0874d5a-60e0-48ee-9979-05b4f7ebb130)
+
+
 ## 🔄 Future Enhancements
 
 - Partition data by `year` or `ticker` for faster querying.
@@ -139,3 +144,4 @@ MIT License
 ## 🙋‍♂️ Questions?
 
 Feel free to raise issues or reach out for improvements or support!
+

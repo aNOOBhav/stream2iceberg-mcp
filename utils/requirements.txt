@@ -1,0 +1,8 @@
+pandas
+yfinance
+polars
+s3fs
+requests
+python-dotenv
+tqdm
+prefect>=2.13

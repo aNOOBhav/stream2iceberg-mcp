@@ -1,7 +1,7 @@
 
 # 📈 Stock Daily Data Pipeline to Apache Iceberg on MinIO
 
-This project automates the retrieval, transformation, and loading of daily stock price data from Yahoo Finance into an Apache Iceberg table stored on MinIO. The data is queryable using Dremio.
+This project automates the retrieval, transformation, and loading of daily stock price data using Kafka streaming from Yahoo Finance into an Apache Iceberg table stored on MinIO. The data is queryable using Dremio.
 
 ## 🚀 Features
 

@@ -125,8 +125,7 @@ V, UNH, AVGO, MA, JNJ, HD, XOM, PG, COST, BAC
 
 ## 🧪 System HLD
 
-![image](https://github.com/user-attachments/assets/4e18dc7e-cdb7-4ff5-aa9d-d7f89bb164b1)
-
+![image](https://github.com/user-attachments/assets/ee63289c-5cad-4b59-b231-7795d2448463)
 
 ## 🔄 Pipeline LLD 
 

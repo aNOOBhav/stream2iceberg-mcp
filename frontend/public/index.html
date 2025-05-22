@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Chat Assistant</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .message {
+            max-width: 80%;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+        .user-message {
+            margin-left: auto;
+            background-color: #007bff;
+            color: white;
+        }
+        .assistant-message {
+            margin-left: 0;
+            margin-right: auto;
+            background-color: #f0f0f0;
+        }
+        .message-time {
+            font-size: 0.75rem;
+            color: #666;
+        }
+        .chat-input {
+            padding: 20px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #eee;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .chat-input button {
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+        .loading {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Stock Assistant AI</h1>
+            <p>Ask questions about stock data and get instant answers</p>
+        </div>
+        <div class="chat-messages" id="messages">
+            <!-- Messages will be inserted here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Ask about stock data (e.g., 'What was the price of AAPL last month?')" />
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+    <script>
+        // Initialize elements
+        const messagesContainer = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        let isLoading = false;
+
+        // Add a message to the chat container
+        function addMessage(text, isUser, timestamp) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
+            messageDiv.style.marginLeft = isUser ? 'auto' : '0';
+            messageDiv.style.marginRight = isUser ? '0' : 'auto';
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    <div class="message-text">${text}</div>
+                    <div class="message-timestamp">${timestamp}</div>
+                </div>
+            `;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Define sendMessage function
+        async function sendMessage() {
+            if (isLoading || !messageInput.value.trim()) return;
+
+            const timestamp = new Date().toLocaleTimeString();
+            addMessage(messageInput.value, true, timestamp);
+
+            // Add loading message
+            addMessage('Thinking...', false, timestamp);
+            isLoading = true;
+
+            try {
+                const query = messageInput.value.trim();
+                
+                try {
+                    const response = await fetch("http://localhost:8080/v1/mcp", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            tool_name: "ask_question_on_stock_data",
+                            input: {},
+                            messages: [{
+                                role: "user",
+                                content: query
+                            }]
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Backend Response:', data);
+
+                    // Remove loading message
+                    const lastMessage = messagesContainer.lastElementChild;
+                    lastMessage.remove();
+
+                    // Display messages
+                    addMessage(data.summary || data.error || JSON.stringify(data), "assistant", timestamp);
+                } catch (error) {
+                    console.error('Error:', error);
+                    const lastMessage = messagesContainer.lastElementChild;
+                    lastMessage.remove();
+                    addMessage('Error: Unable to get response. Please try again.', "assistant", timestamp);
+                }
+            } finally {
+                messageInput.value = '';
+                isLoading = false;
+            }
+        }
+
+        // Add Enter key support
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Add button click handler
+        sendButton.addEventListener('click', sendMessage);
+
+        // Expose sendMessage to global scope
+        window.sendMessage = sendMessage;
+    </script>
+</body>
+</html>

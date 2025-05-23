@@ -121,6 +121,17 @@ V, UNH, AVGO, MA, JNJ, HD, XOM, PG, COST, BAC
 
 (Note: `BRK-B` is internally converted to `BRK.B` for Yahoo Finance.)
 
+## ✅ Frontend 
+
+```
+cd ~/frontend && python mcp_server.py
+
+Enter your ANTRHOPIC API KEY
+
+cd frontend/public && python3 -m http.server 3001
+
+```
+
 ---
 
 ## 🧪 System HLD
@@ -131,13 +142,17 @@ V, UNH, AVGO, MA, JNJ, HD, XOM, PG, COST, BAC
 
 ![image](https://github.com/user-attachments/assets/a0874d5a-60e0-48ee-9979-05b4f7ebb130)
 
+## App screenshot
+
+<img width="797" alt="image" src="https://github.com/user-attachments/assets/0574680f-ea89-42b0-9f58-58320d8b8e8e" />
+
+
 
 ## 🔄 Future Enhancements
 
 - Partition data by `year` or `ticker` for faster querying.
 - Automate Iceberg table promotion using Dremio REST API or Nessie.
-- Schedule with Prefect or Airflow for production orchestration.
-
+- Schedule with Github actions for CI/CD
 ---
 
 ## 🧾 License

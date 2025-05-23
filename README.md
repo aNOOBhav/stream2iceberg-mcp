@@ -21,6 +21,8 @@ This project automates the retrieval, transformation, and loading of daily stock
 - **Apache Kafka** for daily streaming (can be extended to lower grains)
 - **MinIO** for S3-compatible object storage
 - **Dremio** as query engine for SQL analytics
+- **Claude LLM** powering MCP server
+- **Simple HTML+JS** frontend
 
 ---
 

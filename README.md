@@ -148,6 +148,10 @@ cd frontend/public && python3 -m http.server 3001
 
 <img width="797" alt="image" src="https://github.com/user-attachments/assets/0574680f-ea89-42b0-9f58-58320d8b8e8e" />
 
+## Chatbot Demo
+
+https://github.com/user-attachments/assets/67df52f3-419a-4ebb-970f-bf090d1c290e
+
 
 
 ## 🔄 Future Enhancements
